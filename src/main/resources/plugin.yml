@@ -1,0 +1,10 @@
+name: KarmaPlugin
+version: '${version}'
+main: io.github.karmasmp.karmaplugin.KarmaPlugin
+api-version: '1.20'
+description: "The Paper Plugin for Karma SMP run by SakuraRadio."
+authors:
+  - Austin
+  - Byrt
+  - LordMrK
+website: "https://github.com/KarmaSMP/KarmaSMP-Plugin"
