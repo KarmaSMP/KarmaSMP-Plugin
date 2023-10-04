@@ -7,10 +7,14 @@ on:
   pull_request:
     branches:
       - main
+  release:
+    types: [published]
 
 jobs:
   gradle-build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout project sources
         uses: actions/checkout@v3
@@ -27,6 +31,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/v')
         with:
-          files: build/libs
-          generate_release_notes: true
-          append_body: true
+          files: build/libs/*
