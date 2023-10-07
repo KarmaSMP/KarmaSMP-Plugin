@@ -80,6 +80,7 @@ public final class KarmaPlugin extends JavaPlugin {
             annotationParser.parseContainers();
         } catch(Exception e ) {
             getLogger().severe("Failed to parse commands");
+            getServer().getPluginManager().disablePlugin(this);
             throw new RuntimeException(e);
         }
         getLogger().info("Finished setting up commands");
