@@ -14,7 +14,7 @@ public abstract class Phase implements PluginEventable, Tickable {
         this.tick = startTicks;
     }
 
-    protected int getTick() {
+    public int getTick() {
         return tick;
     }
 
