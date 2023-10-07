@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id("io.papermc.paperweight.userdev") version "1.5.5"
     id("xyz.jpenilla.run-paper") version "2.1.0"
+    id("com.github.johnrengelman.shadow") version '8.1.1'
 }
 
 def gitCommitHash = 'git rev-parse --verify --short HEAD'.execute().text.trim()
@@ -23,6 +24,7 @@ repositories {
 
 dependencies {
     paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT")
+    implementation 'org.kohsuke:github-api:1.316'
 }
 
 def targetJavaVersion = 17
