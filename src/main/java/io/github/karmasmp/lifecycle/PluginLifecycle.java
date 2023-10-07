@@ -1,5 +1,11 @@
 package io.github.karmasmp.lifecycle;
 
+import cloud.commandframework.annotations.AnnotationParser;
+import cloud.commandframework.arguments.parser.StandardParameters;
+import cloud.commandframework.execution.CommandExecutionCoordinator;
+import cloud.commandframework.meta.CommandMeta;
+import cloud.commandframework.meta.SimpleCommandMeta;
+import cloud.commandframework.paper.PaperCommandManager;
 import io.github.karmasmp.PluginListener;
 import io.github.karmasmp.PluginWorldType;
 import io.github.karmasmp.lifecycle.world.*;
@@ -7,20 +13,15 @@ import io.github.karmasmp.phase.Phase;
 import io.github.karmasmp.phase.QueuedPhase;
 import io.github.karmasmp.phase.plugin.FinalPluginPhase;
 import io.github.karmasmp.phase.plugin.MainPluginPhase;
-import io.github.karmasmp.testcommand.LifecycleCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 public final class PluginLifecycle extends Lifecycle {
@@ -112,11 +113,59 @@ public final class PluginLifecycle extends Lifecycle {
     }
 
     public void registerCommands() {
+        /*
         CommandMap commandMap = this.getServer().getCommandMap();
 
         commandMap.register("karmasmp", new LifecycleCommand(this));
 
-        this.getLogger().info("Registered commands!");
+        this.getLogger().info("Registered commands!");*/
+        this.getLogger().info("Setting up commands!");
+        PaperCommandManager<CommandSender> commandManager;
+        try {
+            commandManager = new PaperCommandManager<>(this.plugin, CommandExecutionCoordinator.simpleCoordinator(), Function.identity(), Function.identity());
+        } catch (Exception e) {
+            this.getLogger().severe("Failed to initialize the command manager!");
+            throw new RuntimeException(e);
+        }
+
+        commandManager.registerAsynchronousCompletions();
+        commandManager.registerBrigadier();
+        commandManager.commandSuggestionProcessor((context, strings) -> {
+            String input;
+
+            if (context.getInputQueue().isEmpty()) {
+                input = "";
+            } else {
+                input = context.getInputQueue().peek();
+            }
+
+            input = input.toLowerCase();
+            List<String> suggestions = new LinkedList<>();
+
+            for (String suggestion : strings) {
+                suggestion = suggestion.toLowerCase();
+
+                if (suggestion.startsWith(input)) {
+                    suggestions.add(suggestion);
+                }
+            }
+
+            return suggestions;
+        });
+
+        AnnotationParser<CommandSender> annotationParser = new AnnotationParser<>(commandManager, CommandSender.class,
+                param -> SimpleCommandMeta.simple()
+                        .with(CommandMeta.DESCRIPTION, param.get(StandardParameters.DESCRIPTION, "No description"))
+                        .build()
+        );
+
+        try {
+            annotationParser.parseContainers();
+        } catch(Exception ex) {
+            this.getLogger().severe("Failed to parse commands!");
+            throw new RuntimeException(ex);
+        }
+        this.getLogger().info("Finished setting up commands!");
     }
 
     public void registerEvents() {

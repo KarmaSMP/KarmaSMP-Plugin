@@ -1,4 +1,4 @@
-name: KarmaPlugin
+name: KarmaSMP
 version: '${version}'
 main: io.github.karmasmp.MainPlugin
 api-version: '1.20'
