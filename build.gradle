@@ -1,7 +1,10 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id 'java'
     id("io.papermc.paperweight.userdev") version "1.5.5"
     id("xyz.jpenilla.run-paper") version "2.1.0"
+    id("com.github.johnrengelman.shadow") version '8.1.1'
 }
 
 def gitCommitHash = 'git rev-parse --verify --short HEAD'.execute().text.trim()
@@ -23,6 +26,11 @@ repositories {
 
 dependencies {
     paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT")
+    implementation("cloud.commandframework:cloud-paper:1.8.4")
+    implementation("cloud.commandframework:cloud-annotations:1.8.4")
+    implementation("org.reflections:reflections:0.10.2")
+
+    annotationProcessor("cloud.commandframework:cloud-annotations:1.8.4")
 }
 
 def targetJavaVersion = 17
@@ -41,6 +49,11 @@ tasks.runServer {
 
 tasks.assemble {
     dependsOn(reobfJar)
+}
+
+tasks.named('shadowJar', ShadowJar) {
+    enableRelocation true
+    relocationPrefix "io.github.karmasmp.shadow"
 }
 
 tasks.withType(JavaCompile).configureEach {
