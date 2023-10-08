@@ -4,56 +4,64 @@ import io.github.karmasmp.karmaplugin.KarmaPlayer;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.HandlerList;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityEvent;
-import org.jetbrains.annotations.NotNull;
 
-public class KarmaEntityDamageByPlayerEvent extends EntityEvent implements Cancellable {
+public class KarmaEntityDamageByPlayerEvent {
 
-    private final EntityDamageEvent.DamageCause cause;
-    private boolean cancel;
-    private final double finalDamage;
-    private static final HandlerList handlers = new HandlerList();
+    private final EntityDamageByEntityEvent event;
     private final KarmaPlayer karmaPlayerDamager;
 
-    public KarmaEntityDamageByPlayerEvent(EntityDamageEvent.DamageCause cause, Entity entity, double finalDamage, Player playerDamager, PluginLifecycle pluginLifecycle) {
-        super(entity);
-
-        this.cause = cause;
-        this.finalDamage = finalDamage;
-        this.karmaPlayerDamager = pluginLifecycle.getKarmaPlayer(playerDamager);
+    public KarmaEntityDamageByPlayerEvent(EntityDamageByEntityEvent event, PluginLifecycle pluginLifecycle) {
+        this.event = event;
+        this.karmaPlayerDamager = pluginLifecycle.getKarmaPlayer((Player) event.getDamager());
     }
 
     public EntityDamageEvent.DamageCause getCause() {
-        return cause;
+        return event.getCause();
+    }
+
+    public double getDamage() {
+        return event.getDamage();
+    }
+
+    public double getDamage(EntityDamageEvent.DamageModifier type) {
+        return event.getDamage(type);
+    }
+
+    public Entity getEntity() {
+        return event.getEntity();
     }
 
     public double getFinalDamage() {
-        return finalDamage;
-    }
-
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
+        return event.getFinalDamage();
     }
 
     public KarmaPlayer getKarmaPlayerDamager() {
         return karmaPlayerDamager;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return cancel;
+    public double getOriginalDamage(EntityDamageEvent.DamageModifier type) {
+        return event.getOriginalDamage(type);
     }
 
-    @Override
+    public boolean isApplicable(EntityDamageEvent.DamageModifier type) {
+        return event.isApplicable(type);
+    }
+
+    public boolean isCancelled() {
+        return event.isCancelled();
+    }
+
     public void setCancelled(boolean cancel) {
-        this.cancel = cancel;
+        this.event.setCancelled(cancel);
+    }
+
+    public void setDamage(double damage) {
+        this.event.setDamage(damage);
+    }
+
+    public void setDamage(EntityDamageEvent.DamageModifier type, double damage) {
+        this.event.setDamage(type, damage);
     }
 }
