@@ -260,6 +260,7 @@ public interface PluginEventable {
     default boolean event(KarmaPlayerDamageByEntityEvent event) { return false; }
     default boolean event(KarmaPlayerDamageByPlayerEvent event) { return false; }
     default boolean event(KarmaPlayerDamageEvent event) { return false; }
+    default boolean event(KarmaPlayerDeathEvent event) { return false; }
     default boolean event(KarmaPlayerDropItemEvent event) { return false; }
     default boolean event(KarmaPlayerFoodLevelChangeEvent event) { return false; }
     default boolean event(KarmaPlayerInteractEvent event) { return false; }

@@ -272,6 +272,7 @@ public interface PluginEventablePaperFix {
     default void event(KarmaPlayerDamageByEntityEvent event) {}
     default void event(KarmaPlayerDamageByPlayerEvent event) {}
     default void event(KarmaPlayerDamageEvent event) {}
+    default void event(KarmaPlayerDeathEvent event) {}
     default void event(KarmaPlayerDropItemEvent event) {}
     default void event(KarmaPlayerFoodLevelChangeEvent event) {}
     default void event(KarmaPlayerInteractEvent event) {}

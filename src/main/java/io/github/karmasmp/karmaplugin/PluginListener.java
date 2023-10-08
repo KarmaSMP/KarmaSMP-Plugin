@@ -5275,6 +5275,37 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
+    public void event(KarmaPlayerDeathEvent event) {
+        if (this.pluginLifecycle.event(event)) {
+            return;
+        }
+
+        if (this.pluginLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        WorldLifecycle worldLifecycle = this.pluginLifecycle.getWorldLifecycle(event.getPlayer().getWorld());
+
+        if(worldLifecycle.event(event)) {
+            return;
+        }
+
+        if(worldLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        PlayerLifecycle playerLifecycle = event.getKarmaPlayer().getLifecycle();
+
+        if(playerLifecycle.event(event)) {
+            return;
+        }
+
+        if(playerLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+    }
+
+    @EventHandler
     public void event(KarmaPlayerDropItemEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
