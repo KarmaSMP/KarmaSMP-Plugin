@@ -1,7 +1,7 @@
 package io.github.karmasmp.karmaplugin.function.example;
 
 import io.github.karmasmp.karmaplugin.event.PluginEventable;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import io.github.karmasmp.karmaplugin.event.player.PlayerSwapHandItemsEvent;
 
 public interface NoHandItemSwapping extends PluginEventable {
 

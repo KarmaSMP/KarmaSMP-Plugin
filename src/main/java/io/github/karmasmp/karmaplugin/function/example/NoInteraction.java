@@ -1,7 +1,7 @@
 package io.github.karmasmp.karmaplugin.function.example;
 
 import io.github.karmasmp.karmaplugin.event.PluginEventable;
-import org.bukkit.event.player.PlayerInteractEvent;
+import io.github.karmasmp.karmaplugin.event.player.PlayerInteractEvent;
 
 public interface NoInteraction extends PluginEventable {
 
