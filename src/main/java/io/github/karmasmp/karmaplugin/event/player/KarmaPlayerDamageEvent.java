@@ -2,48 +2,55 @@ package io.github.karmasmp.karmaplugin.event.player;
 
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class KarmaPlayerDamageEvent extends KarmaPlayerEvent implements Cancellable {
+public class KarmaPlayerDamageEvent extends KarmaPlayerEvent {
 
-    private boolean cancel;
-    private final EntityDamageEvent.DamageCause cause;
-    private final double finalDamage;
-    private static final HandlerList handlers = new HandlerList();
+    private final EntityDamageEvent event;
 
-    public KarmaPlayerDamageEvent(EntityDamageEvent.DamageCause cause, double finalDamage, Player player, PluginLifecycle pluginLifecycle) {
-        super(player, pluginLifecycle);
+    public KarmaPlayerDamageEvent(EntityDamageEvent event, PluginLifecycle pluginLifecycle) {
+        super((Player) event.getEntity(), pluginLifecycle);
 
-        this.cause = cause;
-        this.finalDamage = finalDamage;
+        this.event = event;
     }
 
     public EntityDamageEvent.DamageCause getCause() {
-        return cause;
+        return event.getCause();
+    }
+
+    public double getDamage() {
+        return event.getDamage();
+    }
+
+    public double getDamage(EntityDamageEvent.DamageModifier type) {
+        return event.getDamage(type);
     }
 
     public double getFinalDamage() {
-        return finalDamage;
+        return event.getFinalDamage();
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
+    public double getOriginalDamage(EntityDamageEvent.DamageModifier type) {
+        return event.getOriginalDamage(type);
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
+    public boolean isApplicable(EntityDamageEvent.DamageModifier type) {
+        return event.isApplicable(type);
     }
 
-    @Override
     public boolean isCancelled() {
-        return cancel;
+        return event.isCancelled();
     }
 
-    @Override
     public void setCancelled(boolean cancel) {
-        this.cancel = cancel;
+        this.event.setCancelled(cancel);
+    }
+
+    public void setDamage(double damage) {
+        this.event.setDamage(damage);
+    }
+
+    public void setDamage(EntityDamageEvent.DamageModifier type, double damage) {
+        this.event.setDamage(type, damage);
     }
 }

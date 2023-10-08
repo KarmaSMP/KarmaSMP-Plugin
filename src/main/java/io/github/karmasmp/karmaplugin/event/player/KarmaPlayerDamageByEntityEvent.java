@@ -2,20 +2,23 @@ package io.github.karmasmp.karmaplugin.event.player;
 
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class KarmaPlayerDamageByEntityEvent extends KarmaPlayerDamageEvent {
 
-    private final Entity entityDamager;
+    private final EntityDamageByEntityEvent event;
 
-    public KarmaPlayerDamageByEntityEvent(EntityDamageEvent.DamageCause cause, Entity entityDamager, double finalDamage, Player player, PluginLifecycle pluginLifecycle) {
-        super(cause, finalDamage, player, pluginLifecycle);
+    public KarmaPlayerDamageByEntityEvent(EntityDamageByEntityEvent event, PluginLifecycle pluginLifecycle) {
+        super(event, pluginLifecycle);
 
-        this.entityDamager = entityDamager;
+        this.event = event;
     }
 
     public Entity getEntityDamager() {
-        return entityDamager;
+        return event.getDamager();
+    }
+
+    public boolean isCritical() {
+        return event.isCritical();
     }
 }

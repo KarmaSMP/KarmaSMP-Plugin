@@ -3,26 +3,23 @@ package io.github.karmasmp.karmaplugin.event.player;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
 
 public class KarmaPlayerDamageByBlockEvent extends KarmaPlayerDamageEvent {
 
-    private final Block blockDamager;
-    private final BlockState blockDamagerState;
+    private final EntityDamageByBlockEvent event;
 
-    public KarmaPlayerDamageByBlockEvent(Block blockDamager, BlockState blockDamagerState, EntityDamageEvent.DamageCause cause, double finalDamage, Player player, PluginLifecycle pluginLifecycle) {
-        super(cause, finalDamage, player, pluginLifecycle);
+    public KarmaPlayerDamageByBlockEvent(EntityDamageByBlockEvent event, PluginLifecycle pluginLifecycle) {
+        super(event, pluginLifecycle);
 
-        this.blockDamager = blockDamager;
-        this.blockDamagerState = blockDamagerState;
+        this.event = event;
     }
 
     public Block getBlockDamager() {
-        return blockDamager;
+        return event.getDamager();
     }
 
-    public BlockState getBlockDamagerState() {
-        return blockDamagerState;
+    public BlockState getBlockStateDamager() {
+        return event.getDamagerBlockState();
     }
 }

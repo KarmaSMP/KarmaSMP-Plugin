@@ -1,19 +1,28 @@
 package io.github.karmasmp.karmaplugin.event.player;
 
-import io.github.karmasmp.karmaplugin.KarmaPlayer;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
+import org.bukkit.entity.Item;
+import org.bukkit.event.player.PlayerDropItemEvent;
 
-public class KarmaPlayerDropItemEvent extends org.bukkit.event.player.PlayerDropItemEvent {
+public class KarmaPlayerDropItemEvent extends KarmaPlayerEvent {
 
-    private final KarmaPlayer karmaPlayer;
+    private final PlayerDropItemEvent event;
 
-    public KarmaPlayerDropItemEvent(org.bukkit.event.player.PlayerDropItemEvent event, PluginLifecycle pluginLifecycle) {
-        super(event.getPlayer(), event.getItemDrop());
+    public KarmaPlayerDropItemEvent(PlayerDropItemEvent event, PluginLifecycle pluginLifecycle) {
+        super(event.getPlayer(), pluginLifecycle);
 
-        this.karmaPlayer = pluginLifecycle.getKarmaPlayer(event.getPlayer());
+        this.event = event;
     }
 
-    public KarmaPlayer getKarmaPlayer() {
-        return karmaPlayer;
+    public Item getItemDrop() {
+        return event.getItemDrop();
+    }
+
+    public boolean isCancelled() {
+        return event.isCancelled();
+    }
+
+    public void setCancelled(boolean cancel) {
+        this.event.setCancelled(cancel);
     }
 }

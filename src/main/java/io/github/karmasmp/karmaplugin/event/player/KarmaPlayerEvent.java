@@ -3,9 +3,8 @@ package io.github.karmasmp.karmaplugin.event.player;
 import io.github.karmasmp.karmaplugin.KarmaPlayer;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
-public abstract class KarmaPlayerEvent extends Event {
+public abstract class KarmaPlayerEvent {
 
     protected final KarmaPlayer karmaPlayer;
 

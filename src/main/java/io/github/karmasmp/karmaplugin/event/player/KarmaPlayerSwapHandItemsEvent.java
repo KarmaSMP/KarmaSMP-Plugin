@@ -1,19 +1,40 @@
 package io.github.karmasmp.karmaplugin.event.player;
 
-import io.github.karmasmp.karmaplugin.KarmaPlayer;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.inventory.ItemStack;
 
-public class KarmaPlayerSwapHandItemsEvent extends org.bukkit.event.player.PlayerSwapHandItemsEvent {
+public class KarmaPlayerSwapHandItemsEvent extends KarmaPlayerEvent {
 
-    private final KarmaPlayer karmaPlayer;
+    private final PlayerSwapHandItemsEvent event;
 
-    public KarmaPlayerSwapHandItemsEvent(org.bukkit.event.player.PlayerSwapHandItemsEvent event, PluginLifecycle pluginLifecycle) {
-        super(event.getPlayer(), event.getMainHandItem(), event.getOffHandItem());
+    public KarmaPlayerSwapHandItemsEvent(PlayerSwapHandItemsEvent event, PluginLifecycle pluginLifecycle) {
+        super(event.getPlayer(), pluginLifecycle);
 
-        this.karmaPlayer = pluginLifecycle.getKarmaPlayer(event.getPlayer());
+        this.event = event;
     }
 
-    public KarmaPlayer getKarmaPlayer() {
-        return karmaPlayer;
+    public ItemStack getMainHandItem() {
+        return event.getMainHandItem();
+    }
+
+    public ItemStack getOffHandItem() {
+        return event.getOffHandItem();
+    }
+
+    public boolean isCancelled() {
+        return event.isCancelled();
+    }
+
+    public void setCancelled(boolean cancel) {
+        this.event.setCancelled(cancel);
+    }
+
+    public void setMainHandItem(ItemStack mainHandItem) {
+        this.event.setMainHandItem(mainHandItem);
+    }
+
+    public void setOffHandItem(ItemStack offHandItem) {
+        this.event.setOffHandItem(offHandItem);
     }
 }

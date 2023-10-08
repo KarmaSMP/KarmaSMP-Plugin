@@ -1,19 +1,28 @@
 package io.github.karmasmp.karmaplugin.event.player;
 
-import io.github.karmasmp.karmaplugin.KarmaPlayer;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
+import net.kyori.adventure.text.Component;
+import org.bukkit.event.player.PlayerQuitEvent;
 
-public class KarmaPlayerQuitEvent extends org.bukkit.event.player.PlayerQuitEvent {
+public class KarmaPlayerQuitEvent extends KarmaPlayerEvent {
 
-    private final KarmaPlayer karmaPlayer;
+    private final PlayerQuitEvent event;
 
-    public KarmaPlayerQuitEvent(org.bukkit.event.player.PlayerQuitEvent event, PluginLifecycle pluginLifecycle) {
-        super(event.getPlayer(), event.quitMessage(), event.getReason());
+    public KarmaPlayerQuitEvent(PlayerQuitEvent event, PluginLifecycle pluginLifecycle) {
+        super(event.getPlayer(), pluginLifecycle);
 
-        this.karmaPlayer = pluginLifecycle.getKarmaPlayer(event.getPlayer());
+        this.event = event;
     }
 
-    public KarmaPlayer getKarmaPlayer() {
-        return karmaPlayer;
+    public PlayerQuitEvent.QuitReason getReason() {
+        return event.getReason();
+    }
+
+    public Component quitMessage() {
+        return event.quitMessage();
+    }
+
+    public void quitMessage(Component quitMessage) {
+        this.event.quitMessage(quitMessage);
     }
 }
