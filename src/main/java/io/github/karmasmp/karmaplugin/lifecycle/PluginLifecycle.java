@@ -6,10 +6,7 @@ import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.meta.SimpleCommandMeta;
 import cloud.commandframework.paper.PaperCommandManager;
-import io.github.karmasmp.karmaplugin.KarmaCommandSender;
-import io.github.karmasmp.karmaplugin.PluginListener;
-import io.github.karmasmp.karmaplugin.PluginTimer;
-import io.github.karmasmp.karmaplugin.PluginWorldType;
+import io.github.karmasmp.karmaplugin.*;
 import io.github.karmasmp.karmaplugin.lifecycle.world.*;
 import io.github.karmasmp.karmaplugin.phase.Phase;
 import io.github.karmasmp.karmaplugin.phase.QueuedPhase;
@@ -26,22 +23,18 @@ import java.util.logging.Logger;
 
 public final class PluginLifecycle extends Lifecycle {
 
+    private final Map<UUID, KarmaPlayer> karmaPlayerMap;
     private final Map<UUID, PlayerLifecycle> playerLifecycleMap;
     private final JavaPlugin plugin;
     private final PluginTimer timer;
     private final Map<String, WorldLifecycle> worldLifecycleMap;
 
     public PluginLifecycle(JavaPlugin plugin) {
+        this.karmaPlayerMap = new HashMap<>();
         this.playerLifecycleMap = new HashMap<>();
         this.plugin = plugin;
         this.timer = new PluginTimer(this);
         this.worldLifecycleMap = new HashMap<>();
-    }
-
-    public PlayerLifecycle createPlayerLifecycle(Player player) {
-        PlayerLifecycle playerLifecycle = new PlayerLifecycle(this, player);
-        this.playerLifecycleMap.put(player.getUniqueId(), playerLifecycle);
-        return playerLifecycle;
     }
 
     public WorldLifecycle createWorldLifecycle(World world, PluginWorldType worldType) {
@@ -68,8 +61,31 @@ public final class PluginLifecycle extends Lifecycle {
         return createQueuePhase(clazz, PluginLifecycle.class, this, constructorTypes, parameters);
     }
 
+    public KarmaPlayer getKarmaPlayer(Player player) {
+        KarmaPlayer karmaPlayer = this.getKarmaPlayer(player.getUniqueId());
+
+        if(karmaPlayer == null) {
+            karmaPlayer = new KarmaPlayer(player, this.getPlayerLifecycle(player));
+            this.karmaPlayerMap.put(player.getUniqueId(), karmaPlayer);
+        }
+
+        return karmaPlayer;
+    }
+
+    public KarmaPlayer getKarmaPlayer(UUID uuid) {
+        return karmaPlayerMap.get(uuid);
+    }
+
     public PlayerLifecycle getPlayerLifecycle(Player player) {
-        return getPlayerLifecycle(player.getUniqueId());
+        PlayerLifecycle playerLifecycle = this.getPlayerLifecycle(player.getUniqueId());
+
+        if (playerLifecycle == null) {
+            playerLifecycle = new PlayerLifecycle(this, player);
+            playerLifecycle.start();
+            this.playerLifecycleMap.put(player.getUniqueId(), playerLifecycle);
+        }
+
+        return playerLifecycle;
     }
 
     public PlayerLifecycle getPlayerLifecycle(UUID uuid) {
@@ -199,12 +215,6 @@ public final class PluginLifecycle extends Lifecycle {
 
             worldLifecycle.start();
         }
-
-        for(Player player : this.getServer().getOnlinePlayers()) {
-            PlayerLifecycle playerLifecycle = this.createPlayerLifecycle(player);
-
-            playerLifecycle.start();
-        }
     }
 
     @Override
@@ -232,11 +242,4 @@ public final class PluginLifecycle extends Lifecycle {
     // #################################################################################################################
     // EVENTS
     // #################################################################################################################
-
-    @Override
-    public void event(PlayerJoinEvent event) {
-        PlayerLifecycle playerLifecycle = this.createPlayerLifecycle(event.getPlayer());
-
-        playerLifecycle.start();
-    }
 }
