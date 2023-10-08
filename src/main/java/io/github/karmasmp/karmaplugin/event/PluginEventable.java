@@ -1,6 +1,6 @@
 package io.github.karmasmp.karmaplugin.event;
 
-import io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent;
+import io.github.karmasmp.karmaplugin.event.entity.KarmaEntityDamageByPlayerEvent;
 import io.github.karmasmp.karmaplugin.event.player.*;
 import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerDropItemEvent;
 import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerInteractEvent;
@@ -252,7 +252,7 @@ public interface PluginEventable {
     default boolean event(AsyncChatEvent event) { return false; }
 
     // Karma
-    default boolean event(EntityDamageByPlayerEvent event) { return false; }
+    default boolean event(KarmaEntityDamageByPlayerEvent event) { return false; }
 
     default boolean event(KarmaPlayerBlockBreakEvent event) { return false; }
     default boolean event(KarmaPlayerBlockPlaceEvent event) { return false; }

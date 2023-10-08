@@ -1,7 +1,7 @@
 package io.github.karmasmp.karmaplugin;
 
 import io.github.karmasmp.karmaplugin.event.PluginEventablePaperFix;
-import io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent;
+import io.github.karmasmp.karmaplugin.event.entity.KarmaEntityDamageByPlayerEvent;
 import io.github.karmasmp.karmaplugin.event.player.*;
 import io.github.karmasmp.karmaplugin.lifecycle.PlayerLifecycle;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
@@ -1159,7 +1159,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
         }
 
         if (event.getDamager().getType() == EntityType.PLAYER) {
-            EntityDamageByPlayerEvent karmaEvent = new EntityDamageByPlayerEvent(event.getCause(), event.getEntity(), event.getFinalDamage(), (Player) event.getDamager(), this.pluginLifecycle);
+            KarmaEntityDamageByPlayerEvent karmaEvent = new KarmaEntityDamageByPlayerEvent(event.getCause(), event.getEntity(), event.getFinalDamage(), (Player) event.getDamager(), this.pluginLifecycle);
             this.event(karmaEvent);
 
             event.setCancelled(karmaEvent.isCancelled());
@@ -5048,7 +5048,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     // Karma
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent event) {
+    public void event(KarmaEntityDamageByPlayerEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }

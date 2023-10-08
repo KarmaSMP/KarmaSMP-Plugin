@@ -1,5 +1,6 @@
 package io.github.karmasmp.karmaplugin.event;
 
+import io.github.karmasmp.karmaplugin.event.entity.KarmaEntityDamageByPlayerEvent;
 import io.github.karmasmp.karmaplugin.event.player.*;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.block.*;
@@ -263,7 +264,7 @@ public interface PluginEventablePaperFix {
     default void event(AsyncChatEvent event) {}
 
     // Karma
-    default void event(io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent event) {}
+    default void event(KarmaEntityDamageByPlayerEvent event) {}
 
     default void event(KarmaPlayerBlockBreakEvent event) {}
     default void event(KarmaPlayerBlockPlaceEvent event) {}

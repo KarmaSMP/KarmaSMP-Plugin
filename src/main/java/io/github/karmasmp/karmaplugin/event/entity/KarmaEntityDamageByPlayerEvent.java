@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class EntityDamageByPlayerEvent extends EntityEvent implements Cancellable {
+public class KarmaEntityDamageByPlayerEvent extends EntityEvent implements Cancellable {
 
     private final EntityDamageEvent.DamageCause cause;
     private boolean cancel;
@@ -18,7 +18,7 @@ public class EntityDamageByPlayerEvent extends EntityEvent implements Cancellabl
     private static final HandlerList handlers = new HandlerList();
     private final KarmaPlayer karmaPlayerDamager;
 
-    public EntityDamageByPlayerEvent(EntityDamageEvent.DamageCause cause, Entity entity, double finalDamage, Player playerDamager, PluginLifecycle pluginLifecycle) {
+    public KarmaEntityDamageByPlayerEvent(EntityDamageEvent.DamageCause cause, Entity entity, double finalDamage, Player playerDamager, PluginLifecycle pluginLifecycle) {
         super(entity);
 
         this.cause = cause;
