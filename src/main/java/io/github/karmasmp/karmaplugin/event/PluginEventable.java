@@ -1,9 +1,8 @@
 package io.github.karmasmp.karmaplugin.event;
 
-import io.github.karmasmp.karmaplugin.event.player.PlayerBlockBreakEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerBlockPlaceEvent;
+import io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent;
+import io.github.karmasmp.karmaplugin.event.player.*;
 import io.github.karmasmp.karmaplugin.event.player.PlayerDropItemEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerFoodLevelChangeEvent;
 import io.github.karmasmp.karmaplugin.event.player.PlayerInteractEvent;
 import io.github.karmasmp.karmaplugin.event.player.PlayerJoinEvent;
 import io.github.karmasmp.karmaplugin.event.player.PlayerMoveEvent;
@@ -253,8 +252,14 @@ public interface PluginEventable {
     default boolean event(AsyncChatEvent event) { return false; }
 
     // Karma
+    default boolean event(EntityDamageByPlayerEvent event) { return false; }
+
     default boolean event(PlayerBlockBreakEvent event) { return false; }
     default boolean event(PlayerBlockPlaceEvent event) { return false; }
+    default boolean event(PlayerDamageByBlockEvent event) { return false; }
+    default boolean event(PlayerDamageByEntityEvent event) { return false; }
+    default boolean event(PlayerDamageByPlayerEvent event) { return false; }
+    default boolean event(PlayerDamageEvent event) { return false; }
     default boolean event(PlayerDropItemEvent event) { return false; }
     default boolean event(PlayerFoodLevelChangeEvent event) { return false; }
     default boolean event(PlayerInteractEvent event) { return false; }

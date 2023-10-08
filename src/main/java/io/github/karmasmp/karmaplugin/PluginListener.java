@@ -1,6 +1,11 @@
 package io.github.karmasmp.karmaplugin;
 
 import io.github.karmasmp.karmaplugin.event.PluginEventablePaperFix;
+import io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent;
+import io.github.karmasmp.karmaplugin.event.player.PlayerDamageByBlockEvent;
+import io.github.karmasmp.karmaplugin.event.player.PlayerDamageByEntityEvent;
+import io.github.karmasmp.karmaplugin.event.player.PlayerDamageByPlayerEvent;
+import io.github.karmasmp.karmaplugin.event.player.PlayerDamageEvent;
 import io.github.karmasmp.karmaplugin.lifecycle.PlayerLifecycle;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
 import io.github.karmasmp.karmaplugin.lifecycle.world.WorldLifecycle;
@@ -1102,6 +1107,14 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(EntityDamageByBlockEvent event) {
+        if (event.getEntity().getType() == EntityType.PLAYER) {
+            PlayerDamageByBlockEvent karmaEvent = new PlayerDamageByBlockEvent(event.getDamager(), event.getDamagerBlockState(), event.getCause(), event.getFinalDamage(), (Player) event.getEntity(), this.pluginLifecycle);
+            this.event(karmaEvent);
+
+            event.setCancelled(karmaEvent.isCancelled());
+            return;
+        }
+
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -1123,6 +1136,30 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(EntityDamageByEntityEvent event) {
+        if (event.getEntity().getType() == EntityType.PLAYER) {
+            if (event.getDamager().getType() == EntityType.PLAYER) {
+                PlayerDamageByPlayerEvent karmaEvent = new PlayerDamageByPlayerEvent(event.getCause(), event.getFinalDamage(), (Player) event.getEntity(), (Player) event.getDamager(), this.pluginLifecycle);
+                this.event(karmaEvent);
+
+                event.setCancelled(karmaEvent.isCancelled());
+                return;
+            }
+
+            PlayerDamageByEntityEvent karmaEvent = new PlayerDamageByEntityEvent(event.getCause(), event.getDamager(), event.getFinalDamage(), (Player) event.getEntity(), this.pluginLifecycle);
+            this.event(karmaEvent);
+
+            event.setCancelled(karmaEvent.isCancelled());
+            return;
+        }
+
+        if (event.getDamager().getType() == EntityType.PLAYER) {
+            EntityDamageByPlayerEvent karmaEvent = new EntityDamageByPlayerEvent(event.getCause(), event.getEntity(), event.getFinalDamage(), (Player) event.getDamager(), this.pluginLifecycle);
+            this.event(karmaEvent);
+
+            event.setCancelled(karmaEvent.isCancelled());
+            return;
+        }
+
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -1151,6 +1188,14 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
         if (event instanceof EntityDamageByEntityEvent) {
             this.event((EntityDamageByEntityEvent) event);
+            return;
+        }
+
+        if (event.getEntity().getType() == EntityType.PLAYER) {
+            PlayerDamageEvent karmaEvent = new PlayerDamageEvent(event.getCause(), event.getFinalDamage(), (Player) event.getEntity(), this.pluginLifecycle);
+            this.event(karmaEvent);
+
+            event.setCancelled(karmaEvent.isCancelled());
             return;
         }
 
@@ -4997,6 +5042,37 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     // Karma
 
     @EventHandler
+    public void event(io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent event) {
+        if (this.pluginLifecycle.event(event)) {
+            return;
+        }
+
+        if (this.pluginLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        WorldLifecycle worldLifecycle = this.pluginLifecycle.getWorldLifecycle(event.getEntity().getWorld());
+
+        if(worldLifecycle.event(event)) {
+            return;
+        }
+
+        if(worldLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        PlayerLifecycle playerLifecycle = event.getKarmaPlayerDamager().getLifecycle();
+
+        if(playerLifecycle.event(event)) {
+            return;
+        }
+
+        if(playerLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+    }
+
+    @EventHandler
     public void event(io.github.karmasmp.karmaplugin.event.player.PlayerBlockBreakEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
@@ -5038,6 +5114,140 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
         }
 
         WorldLifecycle worldLifecycle = this.pluginLifecycle.getWorldLifecycle(event.getPlayer().getWorld());
+
+        if(worldLifecycle.event(event)) {
+            return;
+        }
+
+        if(worldLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        PlayerLifecycle playerLifecycle = event.getKarmaPlayer().getLifecycle();
+
+        if(playerLifecycle.event(event)) {
+            return;
+        }
+
+        if(playerLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+    }
+
+    @EventHandler
+    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageByBlockEvent event) {
+        if (this.pluginLifecycle.event(event)) {
+            return;
+        }
+
+        if (this.pluginLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        WorldLifecycle worldLifecycle = this.pluginLifecycle.getWorldLifecycle(event.getKarmaPlayer().getWorld());
+
+        if(worldLifecycle.event(event)) {
+            return;
+        }
+
+        if(worldLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        PlayerLifecycle playerLifecycle = event.getKarmaPlayer().getLifecycle();
+
+        if(playerLifecycle.event(event)) {
+            return;
+        }
+
+        if(playerLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+    }
+
+    @EventHandler
+    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageByEntityEvent event) {
+        if (this.pluginLifecycle.event(event)) {
+            return;
+        }
+
+        if (this.pluginLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        WorldLifecycle worldLifecycle = this.pluginLifecycle.getWorldLifecycle(event.getKarmaPlayer().getWorld());
+
+        if(worldLifecycle.event(event)) {
+            return;
+        }
+
+        if(worldLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        PlayerLifecycle playerLifecycle = event.getKarmaPlayer().getLifecycle();
+
+        if(playerLifecycle.event(event)) {
+            return;
+        }
+
+        if(playerLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+    }
+
+    @EventHandler
+    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageByPlayerEvent event) {
+        if (this.pluginLifecycle.event(event)) {
+            return;
+        }
+
+        if (this.pluginLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        WorldLifecycle worldLifecycle = this.pluginLifecycle.getWorldLifecycle(event.getKarmaPlayer().getWorld());
+
+        if(worldLifecycle.event(event)) {
+            return;
+        }
+
+        if(worldLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        PlayerLifecycle playerLifecycle = event.getKarmaPlayer().getLifecycle();
+
+        if(playerLifecycle.event(event)) {
+            return;
+        }
+
+        if(playerLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        playerLifecycle = event.getKarmaPlayerDamager().getLifecycle();
+
+        if(playerLifecycle.event(event)) {
+            return;
+        }
+
+        if(playerLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+    }
+
+    @EventHandler
+    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageEvent event) {
+        if (this.pluginLifecycle.event(event)) {
+            return;
+        }
+
+        if (this.pluginLifecycle.getCurrentPhase().event(event)) {
+            return;
+        }
+
+        WorldLifecycle worldLifecycle = this.pluginLifecycle.getWorldLifecycle(event.getKarmaPlayer().getWorld());
 
         if(worldLifecycle.event(event)) {
             return;
