@@ -262,25 +262,4 @@ public interface PluginEventablePaperFix {
 
     // Paper
     default void event(AsyncChatEvent event) {}
-
-    // Karma
-    default void event(KarmaEntityDamageByPlayerEvent event) {}
-
-    default void event(KarmaPlayerBlockBreakEvent event) {}
-    default void event(KarmaPlayerBlockPlaceEvent event) {}
-    default void event(KarmaPlayerDamageByBlockEvent event) {}
-    default void event(KarmaPlayerDamageByEntityEvent event) {}
-    default void event(KarmaPlayerDamageByPlayerEvent event) {}
-    default void event(KarmaPlayerDamageEvent event) {}
-    default void event(KarmaPlayerDeathEvent event) {}
-    default void event(KarmaPlayerDropItemEvent event) {}
-    default void event(KarmaPlayerFoodLevelChangeEvent event) {}
-    default void event(KarmaPlayerInteractEvent event) {}
-    default void event(KarmaPlayerJoinEvent event) {}
-    default void event(KarmaPlayerMoveEvent event) {}
-    default void event(KarmaPlayerQuitEvent event) {}
-    default void event(KarmaPlayerSwapHandItemsEvent event) {}
-    default void event(KarmaPlayerToggleFlightEvent event) {}
-    default void event(KarmaPlayerToggleSneakEvent event) {}
-    default void event(KarmaPlayerToggleSprintEvent event) {}
 }
