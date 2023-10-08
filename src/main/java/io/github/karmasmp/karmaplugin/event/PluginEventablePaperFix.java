@@ -19,6 +19,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.*;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
+@SuppressWarnings("unused")
 public interface PluginEventablePaperFix {
 
     // Bukkit
