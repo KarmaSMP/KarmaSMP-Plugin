@@ -78,12 +78,12 @@ public class KarmaPlayer {
         this.player.openInventory(inventory);
     }
 
-    public void playSound(Location location, Sound sound, float volume, float pitch) {
-        this.player.playSound(location, sound, volume, pitch);
+    public void playSound(Location location, KarmaSound karmaSound) {
+        this.player.playSound(location, karmaSound.getSound(), karmaSound.getCategory(), karmaSound.getVolume(), karmaSound.getPitch());
     }
 
-    public void playSound(Sound sound, float volume, float pitch) {
-        this.player.playSound(this.player.getLocation(), sound, volume, pitch);
+    public void playSound(KarmaSound karmaSound) {
+        this.player.playSound(this.player.getLocation(), karmaSound.getSound(), karmaSound.getCategory(), karmaSound.getVolume(), karmaSound.getPitch());
     }
 
     public void sendActionBar(Component message) {
