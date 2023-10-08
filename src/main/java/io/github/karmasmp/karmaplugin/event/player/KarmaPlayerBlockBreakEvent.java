@@ -2,13 +2,14 @@ package io.github.karmasmp.karmaplugin.event.player;
 
 import io.github.karmasmp.karmaplugin.KarmaPlayer;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
+import org.bukkit.event.block.BlockBreakEvent;
 
-public class PlayerJoinEvent extends org.bukkit.event.player.PlayerJoinEvent {
+public class KarmaPlayerBlockBreakEvent extends BlockBreakEvent {
 
     private final KarmaPlayer karmaPlayer;
 
-    public PlayerJoinEvent(org.bukkit.event.player.PlayerJoinEvent event, PluginLifecycle pluginLifecycle) {
-        super(event.getPlayer(), event.joinMessage());
+    public KarmaPlayerBlockBreakEvent(BlockBreakEvent event, PluginLifecycle pluginLifecycle) {
+        super(event.getBlock(), event.getPlayer());
 
         this.karmaPlayer = pluginLifecycle.getKarmaPlayer(event.getPlayer());
     }

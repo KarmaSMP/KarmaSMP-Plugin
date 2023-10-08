@@ -6,12 +6,12 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class PlayerDamageByBlockEvent extends PlayerDamageEvent {
+public class KarmaPlayerDamageByBlockEvent extends KarmaPlayerDamageEvent {
 
     private final Block blockDamager;
     private final BlockState blockDamagerState;
 
-    public PlayerDamageByBlockEvent(Block blockDamager, BlockState blockDamagerState, EntityDamageEvent.DamageCause cause, double finalDamage, Player player, PluginLifecycle pluginLifecycle) {
+    public KarmaPlayerDamageByBlockEvent(Block blockDamager, BlockState blockDamagerState, EntityDamageEvent.DamageCause cause, double finalDamage, Player player, PluginLifecycle pluginLifecycle) {
         super(cause, finalDamage, player, pluginLifecycle);
 
         this.blockDamager = blockDamager;

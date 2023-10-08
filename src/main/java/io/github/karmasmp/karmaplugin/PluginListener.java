@@ -2,10 +2,7 @@ package io.github.karmasmp.karmaplugin;
 
 import io.github.karmasmp.karmaplugin.event.PluginEventablePaperFix;
 import io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerDamageByBlockEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerDamageByEntityEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerDamageByPlayerEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerDamageEvent;
+import io.github.karmasmp.karmaplugin.event.player.*;
 import io.github.karmasmp.karmaplugin.lifecycle.PlayerLifecycle;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
 import io.github.karmasmp.karmaplugin.lifecycle.world.WorldLifecycle;
@@ -20,6 +17,15 @@ import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.event.raid.RaidFinishEvent;
 import org.bukkit.event.raid.RaidSpawnWaveEvent;
 import org.bukkit.event.raid.RaidStopEvent;
@@ -42,7 +48,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(BlockBreakEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerBlockBreakEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerBlockBreakEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -512,7 +518,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(BlockPlaceEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerBlockPlaceEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerBlockPlaceEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -1108,7 +1114,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     @EventHandler
     public void event(EntityDamageByBlockEvent event) {
         if (event.getEntity().getType() == EntityType.PLAYER) {
-            PlayerDamageByBlockEvent karmaEvent = new PlayerDamageByBlockEvent(event.getDamager(), event.getDamagerBlockState(), event.getCause(), event.getFinalDamage(), (Player) event.getEntity(), this.pluginLifecycle);
+            KarmaPlayerDamageByBlockEvent karmaEvent = new KarmaPlayerDamageByBlockEvent(event.getDamager(), event.getDamagerBlockState(), event.getCause(), event.getFinalDamage(), (Player) event.getEntity(), this.pluginLifecycle);
             this.event(karmaEvent);
 
             event.setCancelled(karmaEvent.isCancelled());
@@ -1138,14 +1144,14 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     public void event(EntityDamageByEntityEvent event) {
         if (event.getEntity().getType() == EntityType.PLAYER) {
             if (event.getDamager().getType() == EntityType.PLAYER) {
-                PlayerDamageByPlayerEvent karmaEvent = new PlayerDamageByPlayerEvent(event.getCause(), event.getFinalDamage(), (Player) event.getEntity(), (Player) event.getDamager(), this.pluginLifecycle);
+                KarmaPlayerDamageByPlayerEvent karmaEvent = new KarmaPlayerDamageByPlayerEvent(event.getCause(), event.getFinalDamage(), (Player) event.getEntity(), (Player) event.getDamager(), this.pluginLifecycle);
                 this.event(karmaEvent);
 
                 event.setCancelled(karmaEvent.isCancelled());
                 return;
             }
 
-            PlayerDamageByEntityEvent karmaEvent = new PlayerDamageByEntityEvent(event.getCause(), event.getDamager(), event.getFinalDamage(), (Player) event.getEntity(), this.pluginLifecycle);
+            KarmaPlayerDamageByEntityEvent karmaEvent = new KarmaPlayerDamageByEntityEvent(event.getCause(), event.getDamager(), event.getFinalDamage(), (Player) event.getEntity(), this.pluginLifecycle);
             this.event(karmaEvent);
 
             event.setCancelled(karmaEvent.isCancelled());
@@ -1192,7 +1198,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
         }
 
         if (event.getEntity().getType() == EntityType.PLAYER) {
-            PlayerDamageEvent karmaEvent = new PlayerDamageEvent(event.getCause(), event.getFinalDamage(), (Player) event.getEntity(), this.pluginLifecycle);
+            KarmaPlayerDamageEvent karmaEvent = new KarmaPlayerDamageEvent(event.getCause(), event.getFinalDamage(), (Player) event.getEntity(), this.pluginLifecycle);
             this.event(karmaEvent);
 
             event.setCancelled(karmaEvent.isCancelled());
@@ -2006,7 +2012,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(FoodLevelChangeEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerFoodLevelChangeEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerFoodLevelChangeEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -3191,7 +3197,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(PlayerDropItemEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerDropItemEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerDropItemEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -3475,7 +3481,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(PlayerInteractEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerInteractEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerInteractEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -3635,7 +3641,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(PlayerJoinEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerJoinEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerJoinEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -3744,7 +3750,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(PlayerMoveEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerMoveEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerMoveEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -3780,7 +3786,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(PlayerQuitEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerQuitEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerQuitEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -4002,7 +4008,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(PlayerSwapHandItemsEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerSwapHandItemsEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerSwapHandItemsEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -4069,17 +4075,17 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
 
     @EventHandler
     public void event(PlayerToggleFlightEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerToggleFlightEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerToggleFlightEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
     public void event(PlayerToggleSneakEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerToggleSneakEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerToggleSneakEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
     public void event(PlayerToggleSprintEvent event) {
-        this.event(new io.github.karmasmp.karmaplugin.event.player.PlayerToggleSprintEvent(event, this.pluginLifecycle));
+        this.event(new KarmaPlayerToggleSprintEvent(event, this.pluginLifecycle));
     }
 
     @EventHandler
@@ -5073,7 +5079,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerBlockBreakEvent event) {
+    public void event(KarmaPlayerBlockBreakEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5104,7 +5110,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerBlockPlaceEvent event) {
+    public void event(KarmaPlayerBlockPlaceEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5135,7 +5141,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageByBlockEvent event) {
+    public void event(KarmaPlayerDamageByBlockEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5166,7 +5172,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageByEntityEvent event) {
+    public void event(KarmaPlayerDamageByEntityEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5197,7 +5203,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageByPlayerEvent event) {
+    public void event(KarmaPlayerDamageByPlayerEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5238,7 +5244,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageEvent event) {
+    public void event(KarmaPlayerDamageEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5269,7 +5275,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerDropItemEvent event) {
+    public void event(KarmaPlayerDropItemEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5300,7 +5306,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerFoodLevelChangeEvent event) {
+    public void event(KarmaPlayerFoodLevelChangeEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5331,7 +5337,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerInteractEvent event) {
+    public void event(KarmaPlayerInteractEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5362,7 +5368,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerJoinEvent event) {
+    public void event(KarmaPlayerJoinEvent event) {
         this.pluginLifecycle.event(event);
         this.pluginLifecycle.getCurrentPhase().event(event);
 
@@ -5378,7 +5384,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerMoveEvent event) {
+    public void event(KarmaPlayerMoveEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5409,7 +5415,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerQuitEvent event) {
+    public void event(KarmaPlayerQuitEvent event) {
         this.pluginLifecycle.event(event);
         this.pluginLifecycle.getCurrentPhase().event(event);
 
@@ -5425,7 +5431,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerSwapHandItemsEvent event) {
+    public void event(KarmaPlayerSwapHandItemsEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5456,7 +5462,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerToggleFlightEvent event) {
+    public void event(KarmaPlayerToggleFlightEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5487,7 +5493,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerToggleSneakEvent event) {
+    public void event(KarmaPlayerToggleSneakEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }
@@ -5518,7 +5524,7 @@ public final class PluginListener implements Listener, PluginEventablePaperFix {
     }
 
     @EventHandler
-    public void event(io.github.karmasmp.karmaplugin.event.player.PlayerToggleSprintEvent event) {
+    public void event(KarmaPlayerToggleSprintEvent event) {
         if (this.pluginLifecycle.event(event)) {
             return;
         }

@@ -5,11 +5,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class PlayerDamageByEntityEvent extends PlayerDamageEvent {
+public class KarmaPlayerDamageByEntityEvent extends KarmaPlayerDamageEvent {
 
     private final Entity entityDamager;
 
-    public PlayerDamageByEntityEvent(EntityDamageEvent.DamageCause cause, Entity entityDamager, double finalDamage, Player player, PluginLifecycle pluginLifecycle) {
+    public KarmaPlayerDamageByEntityEvent(EntityDamageEvent.DamageCause cause, Entity entityDamager, double finalDamage, Player player, PluginLifecycle pluginLifecycle) {
         super(cause, finalDamage, player, pluginLifecycle);
 
         this.entityDamager = entityDamager;

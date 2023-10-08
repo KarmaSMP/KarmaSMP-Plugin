@@ -5,11 +5,11 @@ import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 
-public class PlayerFoodLevelChangeEvent extends FoodLevelChangeEvent {
+public class KarmaPlayerFoodLevelChangeEvent extends FoodLevelChangeEvent {
 
     private final KarmaPlayer karmaPlayer;
 
-    public PlayerFoodLevelChangeEvent(FoodLevelChangeEvent event, PluginLifecycle pluginLifecycle) {
+    public KarmaPlayerFoodLevelChangeEvent(FoodLevelChangeEvent event, PluginLifecycle pluginLifecycle) {
         super(event.getEntity(), event.getFoodLevel(), event.getItem());
 
         this.karmaPlayer = pluginLifecycle.getKarmaPlayer((Player) event.getEntity());

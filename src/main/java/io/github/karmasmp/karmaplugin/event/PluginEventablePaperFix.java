@@ -1,5 +1,6 @@
 package io.github.karmasmp.karmaplugin.event;
 
+import io.github.karmasmp.karmaplugin.event.player.*;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.block.*;
 import org.bukkit.event.enchantment.EnchantItemEvent;
@@ -7,6 +8,15 @@ import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.event.raid.RaidFinishEvent;
 import org.bukkit.event.raid.RaidSpawnWaveEvent;
 import org.bukkit.event.raid.RaidStopEvent;
@@ -255,20 +265,20 @@ public interface PluginEventablePaperFix {
     // Karma
     default void event(io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent event) {}
 
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerBlockBreakEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerBlockPlaceEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageByBlockEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageByEntityEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageByPlayerEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerDamageEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerDropItemEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerFoodLevelChangeEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerInteractEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerJoinEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerMoveEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerQuitEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerSwapHandItemsEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerToggleFlightEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerToggleSneakEvent event) {}
-    default void event(io.github.karmasmp.karmaplugin.event.player.PlayerToggleSprintEvent event) {}
+    default void event(KarmaPlayerBlockBreakEvent event) {}
+    default void event(KarmaPlayerBlockPlaceEvent event) {}
+    default void event(KarmaPlayerDamageByBlockEvent event) {}
+    default void event(KarmaPlayerDamageByEntityEvent event) {}
+    default void event(KarmaPlayerDamageByPlayerEvent event) {}
+    default void event(KarmaPlayerDamageEvent event) {}
+    default void event(KarmaPlayerDropItemEvent event) {}
+    default void event(KarmaPlayerFoodLevelChangeEvent event) {}
+    default void event(KarmaPlayerInteractEvent event) {}
+    default void event(KarmaPlayerJoinEvent event) {}
+    default void event(KarmaPlayerMoveEvent event) {}
+    default void event(KarmaPlayerQuitEvent event) {}
+    default void event(KarmaPlayerSwapHandItemsEvent event) {}
+    default void event(KarmaPlayerToggleFlightEvent event) {}
+    default void event(KarmaPlayerToggleSneakEvent event) {}
+    default void event(KarmaPlayerToggleSprintEvent event) {}
 }

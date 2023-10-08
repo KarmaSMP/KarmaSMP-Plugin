@@ -6,14 +6,14 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class PlayerDamageEvent extends KarmaPlayerEvent implements Cancellable {
+public class KarmaPlayerDamageEvent extends KarmaPlayerEvent implements Cancellable {
 
     private boolean cancel;
     private final EntityDamageEvent.DamageCause cause;
     private final double finalDamage;
     private static final HandlerList handlers = new HandlerList();
 
-    public PlayerDamageEvent(EntityDamageEvent.DamageCause cause, double finalDamage, Player player, PluginLifecycle pluginLifecycle) {
+    public KarmaPlayerDamageEvent(EntityDamageEvent.DamageCause cause, double finalDamage, Player player, PluginLifecycle pluginLifecycle) {
         super(player, pluginLifecycle);
 
         this.cause = cause;

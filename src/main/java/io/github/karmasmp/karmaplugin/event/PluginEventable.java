@@ -2,15 +2,15 @@ package io.github.karmasmp.karmaplugin.event;
 
 import io.github.karmasmp.karmaplugin.event.entity.EntityDamageByPlayerEvent;
 import io.github.karmasmp.karmaplugin.event.player.*;
-import io.github.karmasmp.karmaplugin.event.player.PlayerDropItemEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerInteractEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerJoinEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerMoveEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerQuitEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerSwapHandItemsEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerToggleFlightEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerToggleSneakEvent;
-import io.github.karmasmp.karmaplugin.event.player.PlayerToggleSprintEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerDropItemEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerInteractEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerJoinEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerMoveEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerQuitEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerSwapHandItemsEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerToggleFlightEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerToggleSneakEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerToggleSprintEvent;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.block.*;
 import org.bukkit.event.enchantment.EnchantItemEvent;
@@ -254,20 +254,20 @@ public interface PluginEventable {
     // Karma
     default boolean event(EntityDamageByPlayerEvent event) { return false; }
 
-    default boolean event(PlayerBlockBreakEvent event) { return false; }
-    default boolean event(PlayerBlockPlaceEvent event) { return false; }
-    default boolean event(PlayerDamageByBlockEvent event) { return false; }
-    default boolean event(PlayerDamageByEntityEvent event) { return false; }
-    default boolean event(PlayerDamageByPlayerEvent event) { return false; }
-    default boolean event(PlayerDamageEvent event) { return false; }
-    default boolean event(PlayerDropItemEvent event) { return false; }
-    default boolean event(PlayerFoodLevelChangeEvent event) { return false; }
-    default boolean event(PlayerInteractEvent event) { return false; }
-    default void event(PlayerJoinEvent event) {}
-    default boolean event(PlayerMoveEvent event) { return false; }
-    default void event(PlayerQuitEvent event) {}
-    default boolean event(PlayerSwapHandItemsEvent event) { return false; }
-    default boolean event(PlayerToggleFlightEvent event) { return false; }
-    default boolean event(PlayerToggleSneakEvent event) { return false; }
-    default boolean event(PlayerToggleSprintEvent event) { return false; }
+    default boolean event(KarmaPlayerBlockBreakEvent event) { return false; }
+    default boolean event(KarmaPlayerBlockPlaceEvent event) { return false; }
+    default boolean event(KarmaPlayerDamageByBlockEvent event) { return false; }
+    default boolean event(KarmaPlayerDamageByEntityEvent event) { return false; }
+    default boolean event(KarmaPlayerDamageByPlayerEvent event) { return false; }
+    default boolean event(KarmaPlayerDamageEvent event) { return false; }
+    default boolean event(KarmaPlayerDropItemEvent event) { return false; }
+    default boolean event(KarmaPlayerFoodLevelChangeEvent event) { return false; }
+    default boolean event(KarmaPlayerInteractEvent event) { return false; }
+    default void event(KarmaPlayerJoinEvent event) {}
+    default boolean event(KarmaPlayerMoveEvent event) { return false; }
+    default void event(KarmaPlayerQuitEvent event) {}
+    default boolean event(KarmaPlayerSwapHandItemsEvent event) { return false; }
+    default boolean event(KarmaPlayerToggleFlightEvent event) { return false; }
+    default boolean event(KarmaPlayerToggleSneakEvent event) { return false; }
+    default boolean event(KarmaPlayerToggleSprintEvent event) { return false; }
 }
