@@ -20,6 +20,7 @@ import java.util.UUID;
 
 public class KarmaPlayer {
 
+    private boolean activeLives;
     private boolean isGhost;
     private int lives;
     private final Player player;
@@ -70,6 +71,10 @@ public class KarmaPlayer {
         return player.getWorld();
     }
 
+    public boolean isActiveLives() {
+        return activeLives;
+    }
+
     public boolean isGhost() {
         return isGhost;
     }
@@ -106,6 +111,10 @@ public class KarmaPlayer {
         this.player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Ticks.duration(fadeIn), Ticks.duration(stay), Ticks.duration(fadeOut)));
         this.player.sendTitlePart(TitlePart.TITLE, title);
         this.player.sendTitlePart(TitlePart.SUBTITLE, subtitle);
+    }
+
+    public void setActiveLives(boolean activeLives) {
+        this.activeLives = activeLives;
     }
 
     public void setGameMode(GameMode gameMode) {
