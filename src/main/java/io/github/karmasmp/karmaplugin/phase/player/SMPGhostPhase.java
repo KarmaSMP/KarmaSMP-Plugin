@@ -1,11 +1,10 @@
 package io.github.karmasmp.karmaplugin.phase.player;
 
+import io.github.karmasmp.karmaplugin.event.entity.KarmaEntityDamageByPlayerEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerBlockBreakEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerFoodLevelChangeEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerInteractEvent;
 import io.github.karmasmp.karmaplugin.lifecycle.PlayerLifecycle;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 public final class SMPGhostPhase extends PlayerPhase {
 
@@ -14,29 +13,25 @@ public final class SMPGhostPhase extends PlayerPhase {
     }
 
     @Override
-    public boolean event(BlockBreakEvent event) {
+    public boolean event(KarmaPlayerBlockBreakEvent event) {
         event.setCancelled(true);
         return true;
     }
 
     @Override
-    public boolean event(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player)) {
-            return false;
-        }
-
+    public boolean event(KarmaEntityDamageByPlayerEvent event) {
         event.setCancelled(true);
         return true;
     }
 
     @Override
-    public boolean event(FoodLevelChangeEvent event) {
+    public boolean event(KarmaPlayerFoodLevelChangeEvent event) {
         event.setCancelled(true);
         return true;
     }
 
     @Override
-    public boolean event(PlayerInteractEvent event) {
+    public boolean event(KarmaPlayerInteractEvent event) {
         event.setCancelled(true);
         return true;
     }
