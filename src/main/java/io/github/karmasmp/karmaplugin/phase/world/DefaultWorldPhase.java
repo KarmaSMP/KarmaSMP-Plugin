@@ -14,7 +14,10 @@ public class DefaultWorldPhase extends WorldPhase {
     public boolean event(KarmaPlayerDeathEvent event) {
         KarmaPlayer karmaPlayer = event.getKarmaPlayer();
 
-        karmaPlayer.setLives(karmaPlayer.getLives() - 1);
+        if (karmaPlayer.isActiveLives()) {
+            karmaPlayer.setLives(karmaPlayer.getLives() - 1);
+        }
+
         return true;
     }
 }
