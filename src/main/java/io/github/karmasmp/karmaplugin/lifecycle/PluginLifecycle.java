@@ -10,11 +10,14 @@ import cloud.commandframework.minecraft.extras.AudienceProvider;
 import cloud.commandframework.minecraft.extras.MinecraftHelp;
 import cloud.commandframework.paper.PaperCommandManager;
 import io.github.karmasmp.karmaplugin.*;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerJoinEvent;
 import io.github.karmasmp.karmaplugin.lifecycle.world.*;
 import io.github.karmasmp.karmaplugin.phase.Phase;
 import io.github.karmasmp.karmaplugin.phase.QueuedPhase;
 import io.github.karmasmp.karmaplugin.phase.plugin.FinalPluginPhase;
 import io.github.karmasmp.karmaplugin.phase.plugin.MainPluginPhase;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -262,4 +265,25 @@ public final class PluginLifecycle extends Lifecycle {
     // #################################################################################################################
     // EVENTS
     // #################################################################################################################
+
+    @Override
+    public void event(KarmaPlayerJoinEvent event) {
+        KarmaPlayer karmaPlayer = event.getKarmaPlayer();
+
+        if (karmaPlayer.hasJoinedBefore()) {
+            return;
+        }
+
+        karmaPlayer.setActiveLives(true);
+        karmaPlayer.setJoinedBefore(true);
+        karmaPlayer.setLives(3);
+        karmaPlayer.sendMessage(Component.empty()
+                .append(Component.text("Welcome on the server", NamedTextColor.YELLOW))
+                .appendSpace()
+                .append(Component.text(karmaPlayer.getName(), NamedTextColor.GOLD))
+                .append(Component.text("! You have", NamedTextColor.YELLOW))
+                .appendSpace()
+                .append(Component.text(karmaPlayer.getLives() + " lives", NamedTextColor.GREEN))
+                .append(Component.text("!", NamedTextColor.YELLOW)));
+    }
 }
