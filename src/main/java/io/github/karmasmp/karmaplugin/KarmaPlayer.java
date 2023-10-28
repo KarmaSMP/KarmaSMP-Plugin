@@ -131,7 +131,7 @@ public class KarmaPlayer {
     public void setLives(int lives) {
         this.lives = lives;
 
-        this.updateLives();
+        this.updatePlayerPhase();
     }
 
     public void setVelocity(Vector vector) {
@@ -142,7 +142,7 @@ public class KarmaPlayer {
         this.player.teleport(location);
     }
 
-    private void updateLives() {
+    private void updatePlayerPhase() {
         if (this.lives > 0 && this.playerLifecycle.getCurrentPhase() instanceof SMPGhostPhase) {
             this.playerLifecycle.forcePhase(new SMPPlayerPhase(this.playerLifecycle));
             this.sendMessage(Component.empty()
