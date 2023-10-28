@@ -6,7 +6,6 @@ import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
 import cloud.commandframework.annotations.processing.CommandContainer;
 import io.github.karmasmp.karmaplugin.KarmaPlayer;
-import io.github.karmasmp.karmaplugin.lifecycle.PlayerLifecycle;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
