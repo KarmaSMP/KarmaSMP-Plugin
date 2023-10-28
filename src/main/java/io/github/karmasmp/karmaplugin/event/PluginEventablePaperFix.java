@@ -1,5 +1,7 @@
 package io.github.karmasmp.karmaplugin.event;
 
+import io.github.karmasmp.karmaplugin.event.entity.KarmaEntityDamageByPlayerEvent;
+import io.github.karmasmp.karmaplugin.event.player.*;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.block.*;
 import org.bukkit.event.enchantment.EnchantItemEvent;
@@ -7,6 +9,15 @@ import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.event.raid.RaidFinishEvent;
 import org.bukkit.event.raid.RaidSpawnWaveEvent;
 import org.bukkit.event.raid.RaidStopEvent;
@@ -19,6 +30,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.*;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
+@SuppressWarnings("unused")
 public interface PluginEventablePaperFix {
 
     // Bukkit

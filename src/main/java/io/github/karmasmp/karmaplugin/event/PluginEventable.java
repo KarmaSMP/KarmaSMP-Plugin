@@ -1,5 +1,17 @@
 package io.github.karmasmp.karmaplugin.event;
 
+import io.github.karmasmp.karmaplugin.event.entity.KarmaEntityDamageByPlayerEvent;
+import io.github.karmasmp.karmaplugin.event.entity.KarmaEntityDismountByPlayerEvent;
+import io.github.karmasmp.karmaplugin.event.player.*;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerDropItemEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerInteractEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerJoinEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerMoveEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerQuitEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerSwapHandItemsEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerToggleFlightEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerToggleSneakEvent;
+import io.github.karmasmp.karmaplugin.event.player.KarmaPlayerToggleSprintEvent;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.block.*;
 import org.bukkit.event.enchantment.EnchantItemEvent;
@@ -19,10 +31,10 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.*;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
+@SuppressWarnings("unused")
 public interface PluginEventable {
 
     // Bukkit
-    default boolean event(BlockBreakEvent event) { return false; }
     default boolean event(BlockBurnEvent event) { return false; }
     default boolean event(BlockCanBuildEvent event) { return false; }
     default boolean event(BlockCookEvent event) { return false; }
@@ -42,7 +54,6 @@ public interface PluginEventable {
     default boolean event(BlockPhysicsEvent event) { return false; }
     default boolean event(BlockPistonExtendEvent event) { return false; }
     default boolean event(BlockPistonRetractEvent event) { return false; }
-    default boolean event(BlockPlaceEvent event) { return false; }
     default boolean event(BlockReceiveGameEvent event) { return false; }
     default boolean event(BlockRedstoneEvent event) { return false; }
     default boolean event(BlockShearEntityEvent event) { return false; }
@@ -104,7 +115,6 @@ public interface PluginEventable {
     default boolean event(ExpBottleEvent event) { return false; }
     default boolean event(ExplosionPrimeEvent event) { return false; }
     default boolean event(FireworkExplodeEvent event) { return false; }
-    default boolean event(FoodLevelChangeEvent event) { return false; }
     default boolean event(HorseJumpEvent event) { return false; }
     default boolean event(ItemDespawnEvent event) { return false; }
     default boolean event(ItemMergeEvent event) { return false; }
@@ -157,7 +167,6 @@ public interface PluginEventable {
     default boolean event(PlayerBucketFillEvent event) { return false; }
     default boolean event(PlayerCommandPreprocessEvent event) { return false; }
     default boolean event(PlayerCommandSendEvent event) { return false; }
-    default boolean event(PlayerDropItemEvent event) { return false; }
     default boolean event(PlayerEditBookEvent event) { return false; }
     default boolean event(PlayerEggThrowEvent event) { return false; }
     default boolean event(PlayerExpChangeEvent event) { return false; }
@@ -167,20 +176,16 @@ public interface PluginEventable {
     default boolean event(PlayerChangedMainHandEvent event) { return false; }
     default boolean event(PlayerChangedWorldEvent event) { return false; }
     default boolean event(PlayerInteractAtEntityEvent event) { return false; }
-    default boolean event(PlayerInteractEvent event) { return false; }
     default boolean event(PlayerItemBreakEvent event) { return false; }
     default boolean event(PlayerItemConsumeEvent event) { return false; }
     default boolean event(PlayerItemDamageEvent event) { return false; }
     default boolean event(PlayerItemHeldEvent event) { return false; }
     default boolean event(PlayerItemMendEvent event) { return false; }
-    default void event(PlayerJoinEvent event) {}
     default boolean event(PlayerKickEvent event) { return false; }
     default boolean event(PlayerLevelChangeEvent event) { return false; }
     default boolean event(PlayerLocaleChangeEvent event) { return false; }
     default boolean event(PlayerLoginEvent event) { return false; }
-    default boolean event(PlayerMoveEvent event) { return false; }
     default boolean event(PlayerPortalEvent event) { return false; }
-    default void event(PlayerQuitEvent event) {}
     default boolean event(PlayerRecipeDiscoverEvent event) { return false; }
     default boolean event(PlayerRegisterChannelEvent event) { return false; }
     default boolean event(PlayerResourcePackStatusEvent event) { return false; }
@@ -188,12 +193,8 @@ public interface PluginEventable {
     default boolean event(PlayerRiptideEvent event) { return false; }
     default boolean event(PlayerShearEntityEvent event) { return false; }
     default boolean event(PlayerStatisticIncrementEvent event) { return false; }
-    default boolean event(PlayerSwapHandItemsEvent event) { return false; }
     default boolean event(PlayerTakeLecternBookEvent event) { return false; }
     default boolean event(PlayerTeleportEvent event) { return false; }
-    default boolean event(PlayerToggleFlightEvent event) { return false; }
-    default boolean event(PlayerToggleSneakEvent event) { return false; }
-    default boolean event(PlayerToggleSprintEvent event) { return false; }
     default boolean event(PlayerUnleashEntityEvent event) { return false; }
     default boolean event(PlayerUnregisterChannelEvent event) { return false; }
     default boolean event(PlayerVelocityEvent event) { return false; }
@@ -250,4 +251,33 @@ public interface PluginEventable {
 
     // Paper
     default boolean event(AsyncChatEvent event) { return false; }
+
+    // Karma
+    default boolean event(KarmaEntityDamageByPlayerEvent event) { return false; }
+    default boolean event(KarmaEntityDismountByPlayerEvent event) { return false; }
+
+    default boolean event(KarmaPlayerBlockBreakEvent event) { return false; }
+    default boolean event(KarmaPlayerBlockPlaceEvent event) { return false; }
+    default boolean event(KarmaPlayerDamageByBlockEvent event) { return false; }
+    default boolean event(KarmaPlayerDamageByEntityEvent event) { return false; }
+    default boolean event(KarmaPlayerDamageByPlayerEvent event) { return false; }
+    default boolean event(KarmaPlayerDamageEvent event) { return false; }
+    default boolean event(KarmaPlayerDeathEvent event) { return false; }
+    default boolean event(KarmaPlayerDismountByEntityEvent event) { return false; }
+    default boolean event(KarmaPlayerDismountByPlayerEvent event) { return false; }
+    default boolean event(KarmaPlayerDropItemEvent event) { return false; }
+    default boolean event(KarmaPlayerFoodLevelChangeEvent event) { return false; }
+    default boolean event(KarmaPlayerInteractEvent event) { return false; }
+    default void event(KarmaPlayerJoinEvent event) {}
+    default boolean event(KarmaPlayerMoveEvent event) { return false; }
+    default boolean event(KarmaPlayerPortalEnterEvent event) { return false; }
+    default boolean event(KarmaPlayerPortalEvent event) { return false; }
+    default boolean event(KarmaPlayerPortalExitEvent event) { return false; }
+    default boolean event(KarmaPlayerPotionEffectEvent event) { return false; }
+    default void event(KarmaPlayerQuitEvent event) {}
+    default boolean event(KarmaPlayerRegainHealthEvent event) { return false; }
+    default boolean event(KarmaPlayerSwapHandItemsEvent event) { return false; }
+    default boolean event(KarmaPlayerToggleFlightEvent event) { return false; }
+    default boolean event(KarmaPlayerToggleSneakEvent event) { return false; }
+    default boolean event(KarmaPlayerToggleSprintEvent event) { return false; }
 }
