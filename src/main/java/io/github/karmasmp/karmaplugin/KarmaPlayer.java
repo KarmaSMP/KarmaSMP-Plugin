@@ -4,6 +4,7 @@ import io.github.karmasmp.karmaplugin.lifecycle.PlayerLifecycle;
 import io.github.karmasmp.karmaplugin.phase.player.SMPGhostPhase;
 import io.github.karmasmp.karmaplugin.phase.player.SMPPlayerPhase;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.TitlePart;
 import net.kyori.adventure.util.Ticks;
@@ -24,7 +25,6 @@ public class KarmaPlayer {
 
     private boolean activeLives;
     private boolean hasJoinedBefore; // I don't trust Bukkit that Player#hasPlayedBefore works the way I want to
-    private boolean isGhost;
     private int lives;
     private final Player player;
     private final PlayerLifecycle playerLifecycle;
@@ -82,10 +82,6 @@ public class KarmaPlayer {
         return activeLives;
     }
 
-    public boolean isGhost() {
-        return isGhost;
-    }
-
     public boolean isOp() {
         return player.isOp();
     }
@@ -128,16 +124,14 @@ public class KarmaPlayer {
         this.player.setGameMode(gameMode);
     }
 
-    public void setGhost(boolean isGhost) {
-        this.isGhost = isGhost;
-    }
-
     public void setJoinedBefore(boolean hasJoinedBefore) {
         this.hasJoinedBefore = hasJoinedBefore;
     }
 
     public void setLives(int lives) {
         this.lives = lives;
+
+        this.updateLives();
     }
 
     public void setVelocity(Vector vector) {
@@ -146,5 +140,23 @@ public class KarmaPlayer {
 
     public void teleport(Location location) {
         this.player.teleport(location);
+    }
+
+    private void updateLives() {
+        if (this.lives > 0 && this.playerLifecycle.getCurrentPhase() instanceof SMPGhostPhase) {
+            this.playerLifecycle.forcePhase(new SMPPlayerPhase(this.playerLifecycle));
+            this.sendMessage(Component.empty()
+                    .append(Component.text("You are now a", NamedTextColor.GREEN))
+                    .appendSpace()
+                    .append(Component.text("Player", NamedTextColor.DARK_GREEN))
+                    .append(Component.text("!", NamedTextColor.GREEN)));
+        } else if (this.lives <= 0 && this.playerLifecycle.getCurrentPhase() instanceof SMPPlayerPhase) {
+            this.playerLifecycle.forcePhase(new SMPGhostPhase(this.playerLifecycle));
+            this.sendMessage(Component.empty()
+                    .append(Component.text("You are now a", NamedTextColor.RED))
+                    .appendSpace()
+                    .append(Component.text("Ghost", NamedTextColor.GRAY))
+                    .append(Component.text("!", NamedTextColor.RED)));
+        }
     }
 }
