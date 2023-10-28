@@ -1,6 +1,8 @@
 package io.github.karmasmp.karmaplugin;
 
 import io.github.karmasmp.karmaplugin.lifecycle.PlayerLifecycle;
+import io.github.karmasmp.karmaplugin.phase.player.SMPGhostPhase;
+import io.github.karmasmp.karmaplugin.phase.player.SMPPlayerPhase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.TitlePart;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class KarmaPlayer {
 
     private boolean activeLives;
+    private boolean hasJoinedBefore; // I don't trust Bukkit that Player#hasPlayedBefore works the way I want to
     private boolean isGhost;
     private int lives;
     private final Player player;
@@ -69,6 +72,10 @@ public class KarmaPlayer {
 
     public World getWorld() {
         return player.getWorld();
+    }
+
+    public boolean hasJoinedBefore() {
+        return hasJoinedBefore;
     }
 
     public boolean isActiveLives() {
@@ -123,6 +130,10 @@ public class KarmaPlayer {
 
     public void setGhost(boolean isGhost) {
         this.isGhost = isGhost;
+    }
+
+    public void setJoinedBefore(boolean hasJoinedBefore) {
+        this.hasJoinedBefore = hasJoinedBefore;
     }
 
     public void setLives(int lives) {
