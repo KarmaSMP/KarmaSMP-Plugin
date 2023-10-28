@@ -28,6 +28,7 @@ dependencies {
     paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT")
     implementation("cloud.commandframework:cloud-paper:1.8.4")
     implementation("cloud.commandframework:cloud-annotations:1.8.4")
+    implementation("cloud.commandframework:cloud-minecraft-extras:1.8.4")
 
     annotationProcessor("cloud.commandframework:cloud-annotations:1.8.4")
 }
@@ -50,9 +51,9 @@ tasks.assemble {
     dependsOn(reobfJar)
 }
 
-tasks.named('shadowJar', ShadowJar) {
-    enableRelocation true
-    relocationPrefix "io.github.karmasmp.shadow"
+tasks.shadowJar {
+    def prefix = "io.github.karmasmp.shadow"
+    relocate("cloud.commandframework", "${prefix}.cloud")
 }
 
 tasks.withType(JavaCompile).configureEach {

@@ -1,12 +1,8 @@
 package io.github.karmasmp.karmaplugin.command;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.CommandPermission;
+import cloud.commandframework.annotations.*;
 import cloud.commandframework.annotations.processing.CommandContainer;
 import io.github.karmasmp.karmaplugin.ComponentSort;
-import io.github.karmasmp.karmaplugin.KarmaCommandSender;
 import io.github.karmasmp.karmaplugin.lifecycle.Lifecycle;
 import io.github.karmasmp.karmaplugin.lifecycle.PlayerLifecycle;
 import io.github.karmasmp.karmaplugin.lifecycle.PluginLifecycle;
@@ -19,38 +15,32 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @SuppressWarnings("unused")
 @CommandContainer
 public class LifecycleCommand {
 
     public enum LifecycleTypeSelection {
-        PLUGIN, WORLD, PLAYER
+        ALL, PLUGIN, WORLD, PLAYER
     }
 
-    @CommandMethod("lifecycle [type]")
+    @CommandMethod("lifecycle <type>")
     @CommandPermission("karma.command.lifecycle")
     @CommandDescription("Command for debugging lifecycle technology. If no type is passed then information on all lifecycles will be provided.")
-    public void runLifecycleGeneric(KarmaCommandSender karmaCommandSender, @Nullable @Argument("type") LifecycleTypeSelection type) {
-        CommandSender sender = karmaCommandSender.getCommandSender();
-        PluginLifecycle pluginLifecycle = karmaCommandSender.getPluginLifecycle();
+    public void runLifecycleGeneric(CommandSender sender, PluginLifecycle lifecycle,
+                                    @Argument(value = "type", description = "Which lifecycle should be inspected.") LifecycleTypeSelection type) {
 
         if (!(sender instanceof Player player)) {
             return;
         }
 
-        if (type == null) {
-            this.sendStatusMessage(pluginLifecycle, player);
-        } else {
-            switch (type) {
-                case WORLD -> this.sendWorldStatusesMessage(pluginLifecycle, player);
-                case PLAYER -> this.sendPlayerStatusesMessage(pluginLifecycle, player);
-                case PLUGIN -> this.sendPluginStatusMessage(pluginLifecycle, player);
-            }
+        switch (type) {
+            case ALL -> this.sendStatusMessage(lifecycle, player);
+            case WORLD -> this.sendWorldStatusesMessage(lifecycle, player);
+            case PLAYER -> this.sendPlayerStatusesMessage(lifecycle, player);
+            case PLUGIN -> this.sendPluginStatusMessage(lifecycle, player);
         }
     }
 

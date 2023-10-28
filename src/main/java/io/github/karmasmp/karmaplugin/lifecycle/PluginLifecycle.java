@@ -2,9 +2,12 @@ package io.github.karmasmp.karmaplugin.lifecycle;
 
 import cloud.commandframework.annotations.AnnotationParser;
 import cloud.commandframework.arguments.parser.StandardParameters;
+import cloud.commandframework.arguments.standard.StringArgument;
 import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.meta.SimpleCommandMeta;
+import cloud.commandframework.minecraft.extras.AudienceProvider;
+import cloud.commandframework.minecraft.extras.MinecraftHelp;
 import cloud.commandframework.paper.PaperCommandManager;
 import io.github.karmasmp.karmaplugin.*;
 import io.github.karmasmp.karmaplugin.lifecycle.world.*;
@@ -14,11 +17,13 @@ import io.github.karmasmp.karmaplugin.phase.plugin.FinalPluginPhase;
 import io.github.karmasmp.karmaplugin.phase.plugin.MainPluginPhase;
 import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 public final class PluginLifecycle extends Lifecycle {
@@ -132,11 +137,11 @@ public final class PluginLifecycle extends Lifecycle {
 
     public void registerCommands() {
         this.getLogger().info("Setting up commands!");
-        PaperCommandManager<KarmaCommandSender> commandManager;
+        PaperCommandManager<CommandSender> commandManager;
         try {
-            commandManager = new PaperCommandManager<>(this.plugin, CommandExecutionCoordinator.simpleCoordinator()
-                    , (sender) -> new KarmaCommandSender(sender, this)
-                    , (customSender) -> customSender.getCommandSender());
+            commandManager = new PaperCommandManager<>(this.plugin, CommandExecutionCoordinator.simpleCoordinator(),
+                    Function.identity(),
+                    Function.identity());
         } catch (Exception e) {
             this.getLogger().severe("Failed to initialize the command manager!");
             throw new RuntimeException(e);
@@ -167,11 +172,26 @@ public final class PluginLifecycle extends Lifecycle {
             return suggestions;
         });
 
-        AnnotationParser<KarmaCommandSender> annotationParser = new AnnotationParser<>(commandManager, KarmaCommandSender.class,
+        var minecraftHelp = new MinecraftHelp<>(
+                "/karma",
+                AudienceProvider.nativeAudience(),
+                commandManager
+        );
+
+        commandManager.command(
+                commandManager.commandBuilder("karma")
+                        .literal("help")
+                        .argument(StringArgument.optional("query", StringArgument.StringMode.GREEDY))
+                        .handler(context -> minecraftHelp.queryCommands(context.getOrDefault("query", ""), context.getSender()))
+        );
+
+        AnnotationParser<CommandSender> annotationParser = new AnnotationParser<>(commandManager, CommandSender.class,
                 param -> SimpleCommandMeta.simple()
                         .with(CommandMeta.DESCRIPTION, param.get(StandardParameters.DESCRIPTION, "No description"))
                         .build()
         );
+
+        annotationParser.getParameterInjectorRegistry().registerInjector(PluginLifecycle.class, (context, annotations) -> this);
 
         try {
             annotationParser.parseContainers();
