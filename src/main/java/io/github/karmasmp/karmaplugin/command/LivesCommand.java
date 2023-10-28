@@ -21,7 +21,7 @@ public class LivesCommand {
 
     @CommandMethod("lives <player> <action> [value]")
     @CommandPermission("karma.command.lives")
-    @CommandDescription("Command for adding/removing lives of players.")
+    @CommandDescription("Command for adding/removing/setting/viewing lives of players.")
     public void runLives(CommandSender sender, PluginLifecycle lifecycle
             , @Argument(value = "player") Player player
             , @Argument(value = "action") LivesCommandActions action
