@@ -58,6 +58,10 @@ public class KarmaPlayer {
         return player.getLocation();
     }
 
+    public String getName() {
+        return player.getName();
+    }
+
     public UUID getUniqueId() {
         return player.getUniqueId();
     }
